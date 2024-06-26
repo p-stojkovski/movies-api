@@ -28,3 +28,32 @@
  - Client cannot know if is directly connected to the end server or some load balancer.
 6. Code on demand (optional)
  - Server can send code to the client to run.
+
+### Resource naming and routing
+- GET /movie**s**
+- GET /movies/id
+- GET /movies/id/ratings
+- GET /ratings/me
+- POST/PUT/DELETE /movies/id/ratings
+
+### HTTP Verbs are meaningful
+When we want to specify intent about an action we want to make we are going to use HTTP Verbs to describe that!
+- POST - Create (create order, add item in basket, create customer...) 
+- GET - Retrieve (give me custmer, customers...)
+- PUT - Complete update
+- PATCH - Partial update
+- DELETE - Delete (delete customer, remove item from basket)
+
+### Using response codes to indicate status
+- POST
+   - Single resource (/items/id): N/A
+   - Collection resource (/items): 201 (Location header) -> link to newly created resource, 202
+- GET
+   - Single resource (/items/id): 200, 404
+   - Collection resource (/items): 200
+- PUT
+   - Single resource (/items/id): 200, 204, 404
+   - Collection resource (/items): 405
+- DELETE
+   - Single resource (/items/id): 200, 404
+   - Collection resource (/items): 405
