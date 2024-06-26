@@ -57,3 +57,62 @@ When we want to specify intent about an action we want to make we are going to u
 - DELETE
    - Single resource (/items/id): 200, 404
    - Collection resource (/items): 405
+
+### Flexible response body options
+Json
+{
+  "Name": "Petar"
+}
+
+Accept: application/xml
+<xml>
+
+### Understanding Idempotency
+- No mather how many time you process a specific request, the result will always be the same on the server.
+- POST - Not Idempotent
+- GET - Idempotent
+- PUT - Idempotent
+- DELETE - Idempotent
+- HEAD -Idempotent
+- OPTIONS - Idempotent
+- TRACE - Idempotent
+
+### HATEOAS (Hypermedia as the Engine of Application State)
+{
+  "departmentId": 10,
+  "departmentName": "Administrator",
+  "locationId": 1700,
+  "managerId": 200,
+  "links": [
+    {
+      "href": "10/employees",
+      "rel": "employees",
+      "type": "GET"
+    }
+  ]
+}
+
+{
+  "account": {
+    "account_number": 12345,
+    "balance": {
+      "currency": "usd",
+      "value": 100.00
+    }
+  },
+  "links": [
+    {
+      "deposits": "/accounts/12345/deposits",
+      "withdrawals": "/accounts/12345/withdrawals",
+      "transfers": "/accounts/12345/transfers",
+      "close-requests": "/accounts/12345/close-requests",
+    }
+  ]
+}
+
+### The different types of errors
+There are two categories: 
+1. Error
+- When the client is sending invalid data -> 400
+2. Fault
+- There is somethig bad with the server -> 500, the request was valid, but something on the server happened that could not be processed.
