@@ -116,3 +116,9 @@ There are two categories:
 - When the client is sending invalid data -> 400
 2. Fault
 - There is somethig bad with the server -> 500, the request was valid, but something on the server happened that could not be processed.
+
+### Why partial updates (PATCH) are not used?
+- Complex to build and process the patch request.
+- You need to have a path to the item
+- Simpler to Get the item, change it and use PUT.
+![image](https://github.com/p-stojkovski/movies-api/assets/3589356/b947f9de-f1b2-4a47-b8db-e5de74a19b79)
