@@ -117,6 +117,10 @@ There are two categories:
 2. Fault
 - There is somethig bad with the server -> 500, the request was valid, but something on the server happened that could not be processed.
 
+### Authentication and Authorization in REST APIs
+- Authentication -> Process of verifying of who the user is.
+- Authorization -> Process of verifying of what the user can do.
+
 ### Why partial updates (PATCH) are not used?
 - Complex to build and process the patch request.
 - You need to have a path to the item
