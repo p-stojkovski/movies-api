@@ -18,14 +18,66 @@ public class MovieRepository : IMovieRepository
         throw new NotImplementedException();
     }
 
-    public Task<Movie?> GetByIdAsync(Guid id)
+    public async Task<Movie?> GetByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        //using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+
+        //var movie = await connection.QuerySingleOrDefaultAsync<Movie>(new CommandDefinition("""
+        //    select * from movies where id = @id
+        //    """, new { id }));
+
+        //if (movie is null)
+        //{
+        //    return null;
+        //}
+
+        //var genres = await connection.QueryAsync<string>(new CommandDefinition("""
+        //    select name from genres where movieId = @id
+        //    """, new { id }));
+
+        //foreach (var genre in genres)
+        //{
+        //    movie.Genres.Add(genre);
+        //}
+
+        //return movie;
+
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+
+        var query = @"
+            select * from movies where id = @id;
+            select name from genres where movieId = @id;
+        ";
+
+        var multi = await connection.QueryMultipleAsync(query, new { id });
+
+        var movie = await multi.ReadSingleOrDefaultAsync<Movie>();
+        if (movie is null)
+        {
+            return null;
+        }
+
+        movie.Genres = (await multi.ReadAsync<string>()).ToList();
+        return movie;
     }
 
-    public Task<Movie?> GetBySlugAsync(string slug)
+    public async Task<Movie?> GetBySlugAsync(string slug)
     {
-        throw new NotImplementedException();
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+
+        var movieQuery = @"select * from movies where slug = @slug;";
+        var movie = await connection.QuerySingleOrDefaultAsync<Movie>(movieQuery, new { slug });
+        if (movie is null)
+        {
+            return null;
+        }
+
+        var genresQuery = @"select name from genres where movieId = @id;";
+        var genres = await connection.QueryAsync<string>(genresQuery, new { id = movie.Id });
+
+        movie.Genres = genres.ToList();
+
+        return movie;
     }
 
     public async Task<bool> CreateAsync(Movie movie)
