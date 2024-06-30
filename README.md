@@ -120,6 +120,8 @@ There are two categories:
 ### Authentication and Authorization in REST APIs
 - Authentication -> Process of verifying of who the user is.
 - Authorization -> Process of verifying of what the user can do.
+- Issuer -> Who the token is generated from.
+- Audience -> Who the token is indented for. 
 
 ### Why partial updates (PATCH) are not used?
 - Complex to build and process the patch request.
