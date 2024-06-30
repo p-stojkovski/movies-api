@@ -15,19 +15,19 @@ public class MovieService : IMovieService
         _movieValidator = movieValidator;
     }
 
-    public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieReposiotry.GetAllAsync(cancellationToken);
+        return await _movieReposiotry.GetAllAsync(userId, cancellationToken);
     }
 
-    public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Movie?> GetByIdAsync(Guid id, Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieReposiotry.GetByIdAsync(id, cancellationToken);
+        return await _movieReposiotry.GetByIdAsync(id, userId, cancellationToken);
     }
 
-    public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+    public async Task<Movie?> GetBySlugAsync(string slug, Guid? userId = default, CancellationToken cancellationToken = default)
     {
-        return await _movieReposiotry.GetBySlugAsync(slug, cancellationToken);
+        return await _movieReposiotry.GetBySlugAsync(slug, userId, cancellationToken);
     }
 
     public async Task<bool> CreateAsync(Movie movie, CancellationToken cancellationToken)
@@ -37,7 +37,7 @@ public class MovieService : IMovieService
         return await _movieReposiotry.CreateAsync(movie, cancellationToken);
     }
 
-    public async Task<Movie?> UpdateAsync(Movie movie, CancellationToken cancellationToken)
+    public async Task<Movie?> UpdateAsync(Movie movie, Guid? userId = default, CancellationToken cancellationToken = default)
     {
         await _movieValidator.ValidateAndThrowAsync(movie, cancellationToken);
 
@@ -47,7 +47,7 @@ public class MovieService : IMovieService
             return null;
         }
 
-        await _movieReposiotry.UpdateAsync(movie, cancellationToken);
+        await _movieReposiotry.UpdateAsync(movie, userId, cancellationToken);
 
         return movie;
     }
