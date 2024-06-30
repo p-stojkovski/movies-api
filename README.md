@@ -121,10 +121,19 @@ There are two categories:
 - Authentication -> Process of verifying of who the user is.
 - Authorization -> Process of verifying of what the user can do.
 - Issuer -> Who the token is generated from.
-- Audience -> Who the token is indented for. 
+- Audience -> Who the token is indented for.
+- `{
+    "userId": "82a241fb-e454-439c-b0a9-ff31bfad79cb",
+    "email": "petar@test.com",
+    "customClaims": {
+        "admin": true,
+        "trusted_member": true
+    }
+  }`
 
 ### Why partial updates (PATCH) are not used?
 - Complex to build and process the patch request.
 - You need to have a path to the item
 - Simpler to Get the item, change it and use PUT.
+
 ![image](https://github.com/p-stojkovski/movies-api/assets/3589356/b947f9de-f1b2-4a47-b8db-e5de74a19b79)
