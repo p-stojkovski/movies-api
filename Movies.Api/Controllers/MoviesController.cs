@@ -28,7 +28,7 @@ public class MoviesController : ControllerBase
 
         var movie = request.MapToMovie();
 
-        await _movieService.CreateAsync(movie, userId, cancellationToken);
+        await _movieService.CreateAsync(movie, cancellationToken);
 
         var response = movie.MapToResponse();
 

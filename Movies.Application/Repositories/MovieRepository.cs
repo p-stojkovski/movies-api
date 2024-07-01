@@ -24,7 +24,7 @@ public class MovieRepository : IMovieRepository
                             left join ratings r on m.id = r.movieid
                             left join ratings myr on m.id = myr.movieid
                                 and myr.userid = @userId
-                            group by id";
+                            group by id, userrating";
 
         var result = await connection.QueryAsync(new CommandDefinition(moviesQuery, new { userId }, cancellationToken: cancellationToken));
 
@@ -49,8 +49,8 @@ public class MovieRepository : IMovieRepository
                 left join ratings r on m.id = r.movieid
                 left join ratings myr on m.id = myr.movieid
                     and myr.userid = @userId
-            where id = @id;
-            group by id, userrating
+            where id = @id
+            group by id, userrating;
             select name from genres where movieId = @id;
         ";
 
@@ -77,7 +77,7 @@ public class MovieRepository : IMovieRepository
                 left join ratings r on m.id = r.movieid
                 left join ratings myr on m.id = myr.movieid
                     and myr.userid = @userId
-            where slug = @slug;
+            where slug = @slug
             group by id, userrating";
         var movie = await connection
             .QuerySingleOrDefaultAsync<Movie>(new CommandDefinition(movieQuery, new { slug, userId }, cancellationToken: cancellationToken));
