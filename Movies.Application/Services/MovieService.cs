@@ -47,7 +47,7 @@ public class MovieService : IMovieService
             return null;
         }
 
-        await _movieReposiotry.UpdateAsync(movie, userId, cancellationToken);
+        await _movieReposiotry.UpdateAsync(movie, cancellationToken);
 
         return movie;
     }

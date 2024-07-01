@@ -16,17 +16,25 @@ public class MovieRepository : IMovieRepository
     public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = default, CancellationToken cancellationToken = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
-        var moviesQuery = @"select m.*, string_agg(g.name, ',') as genres
-                            from movies m left join genres g on m.id = g.movieid
+        var moviesQuery = @"select m.*, 
+                                string_agg(distinct g.name, ',') as genres,
+                                round(avg(r.rating), 1) as rating, myr.rating as userrating
+                            from movies m 
+                            left join genres g on m.id = g.movieid                            
+                            left join ratings r on m.id = r.movieid
+                            left join ratings myr on m.id = myr.movieid
+                                and myr.userid = @userId
                             group by id";
 
-        var result = await connection.QueryAsync(new CommandDefinition(moviesQuery, cancellationToken: cancellationToken));
+        var result = await connection.QueryAsync(new CommandDefinition(moviesQuery, new { userId }, cancellationToken: cancellationToken));
 
         return result.Select(x => new Movie
         {
             Id = x.id,
             Title = x.title,
             YearOfRelease = x.yearofrelease,
+            Rating = (float?)x.rating,
+            UserRating = (int?)x.userRating,
             Genres = x.genres is null ? new List<string>() : Enumerable.ToList(x.genres.Split(','))
         });
     }
@@ -36,12 +44,18 @@ public class MovieRepository : IMovieRepository
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
         var query = @"
-            select * from movies where id = @id;
+            select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating
+            from movies m
+                left join ratings r on m.id = r.movieid
+                left join ratings myr on m.id = myr.movieid
+                    and myr.userid = @userId
+            where id = @id;
+            group by id, userrating
             select name from genres where movieId = @id;
         ";
 
         var result = await connection
-            .QueryMultipleAsync(new CommandDefinition(query, new { id }, cancellationToken: cancellationToken));
+            .QueryMultipleAsync(new CommandDefinition(query, new { id, userId }, cancellationToken: cancellationToken));
 
         var movie = await result.ReadSingleOrDefaultAsync<Movie>();
         if (movie is null)
@@ -57,10 +71,17 @@ public class MovieRepository : IMovieRepository
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
 
-        var movieQuery = @"select * from movies where slug = @slug;";
+        var movieQuery = @"
+            select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating
+            from movies m
+                left join ratings r on m.id = r.movieid
+                left join ratings myr on m.id = myr.movieid
+                    and myr.userid = @userId
+            where slug = @slug;
+            group by id, userrating";
         var movie = await connection
-            .QuerySingleOrDefaultAsync<Movie>(new CommandDefinition(movieQuery, new { slug }, cancellationToken: cancellationToken));
-        
+            .QuerySingleOrDefaultAsync<Movie>(new CommandDefinition(movieQuery, new { slug, userId }, cancellationToken: cancellationToken));
+
         if (movie is null)
         {
             return null;
@@ -101,7 +122,7 @@ public class MovieRepository : IMovieRepository
         return result > 0;
     }
 
-    public async Task<bool> UpdateAsync(Movie movie, Guid? userId = default, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
     {
         using var connection = await _dbConnectionFactory.CreateConnectionAsync();
         using var transaction = connection.BeginTransaction();
