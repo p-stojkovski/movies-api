@@ -18,7 +18,7 @@ public class RatingRepository : IRatingRepository
         return await connection.QuerySingleOrDefaultAsync<float?>(new CommandDefinition(@"
             select round(avg(r.rating), 1) 
             from ratings r
-            where movieId = @movieId", 
+            where movieId = @movieId",
         new { movieId }, cancellationToken: cancellationToken));
     }
 
@@ -43,8 +43,19 @@ public class RatingRepository : IRatingRepository
             insert into ratings(userid, movieid, rating)
             values (@userId, @movieId, @rating)
             on conflict (userid, movieid) do update
-                set rating = @rating", 
+                set rating = @rating",
             new { userId, movieId, rating }, cancellationToken: cancellationToken));
+
+        return result > 0;
+    }
+
+    public async Task<bool> DeleteRatingAsync(Guid movieId, Guid userId, CancellationToken cancellationToken)
+    {
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+        var result = await connection.ExecuteAsync(new CommandDefinition(@"
+            delete from ratings
+            where movieid = @movieid and userid = @userid",
+            new { userId, movieId }, cancellationToken: cancellationToken));
 
         return result > 0;
     }

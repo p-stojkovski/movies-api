@@ -38,4 +38,9 @@ public class RatingService : IRatingService
 
         return await _ratingRepository.RateMovieAsync(movieId, rating, userId, cancellationToken);
     }
+
+    public async Task<bool> DeleteRatingAsync(Guid movieId, Guid userId, CancellationToken cancellationToken)
+    {
+        return await _ratingRepository.DeleteRatingAsync(movieId, userId, cancellationToken);
+    }
 }
