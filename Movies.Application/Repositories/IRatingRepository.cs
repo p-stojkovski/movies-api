@@ -1,4 +1,6 @@
-﻿namespace Movies.Application.Repositories;
+﻿using Movies.Application.Models;
+
+namespace Movies.Application.Repositories;
 
 public interface IRatingRepository
 {
@@ -6,4 +8,5 @@ public interface IRatingRepository
     Task<float?> GetRatingAsync(Guid movieId, CancellationToken cancellationToken = default);
     Task<(float? Rating, int? UserRating)> GetRatingsAsync(Guid movieId, Guid userId, CancellationToken cancellationToken = default);
     Task<bool> DeleteRatingAsync(Guid movieId, Guid userId, CancellationToken cancellationToken);
+    Task<IEnumerable<MovieRating>> GetRatingsForUserAsync(Guid userId, CancellationToken cancellationToken);
 }
