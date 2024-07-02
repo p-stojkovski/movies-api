@@ -35,4 +35,17 @@ public class RatingRepository : IRatingRepository
             where movieId = @movieId",
         new { movieId, userId }, cancellationToken: cancellationToken));
     }
+
+    public async Task<bool> RateMovieAsync(Guid movieId, int rating, Guid userId, CancellationToken cancellationToken)
+    {
+        using var connection = await _dbConnectionFactory.CreateConnectionAsync();
+        var result = await connection.ExecuteAsync(new CommandDefinition(@"
+            insert into ratings(userid, movieid, rating)
+            values (@userId, @movieId, @rating)
+            on conflict (userid, movieid) do update
+                set rating = @rating", 
+            new { userId, movieId, rating }, cancellationToken: cancellationToken));
+
+        return result > 0;
+    }
 }

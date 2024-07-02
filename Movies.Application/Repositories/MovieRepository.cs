@@ -34,7 +34,7 @@ public class MovieRepository : IMovieRepository
             Title = x.title,
             YearOfRelease = x.yearofrelease,
             Rating = (float?)x.rating,
-            UserRating = (int?)x.userRating,
+            UserRating = (int?)x.userrating,
             Genres = x.genres is null ? new List<string>() : Enumerable.ToList(x.genres.Split(','))
         });
     }
