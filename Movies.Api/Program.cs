@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Api.Extenstions;
@@ -12,6 +13,14 @@ var config = builder.Configuration;
 // Add services to the container.
 builder.Services.AddAuthenticationServices(config);
 builder.Services.AddAuthorizationServices();
+
+builder.Services.AddApiVersioning(options => 
+{
+    options.DefaultApiVersion = new ApiVersion(1.0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+    options.ApiVersionReader = new MediaTypeApiVersionReader("api-version"); //Headers -> Accept -> application/json;api-version=2.0
+}).AddMvc();
 
 builder.Services.AddControllers();
 builder.Services.AddApplication();
