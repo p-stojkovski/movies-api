@@ -49,8 +49,7 @@ public static class SecurityExtenstions
                     c.User.HasClaim(m => m is { Type: AuthConstants.AdminUserClaimName, Value: "true" }) ||
                     c.User.HasClaim(m => m is { Type: AuthConstants.TrustMemberClaimName, Value: "true" }))
                 );
-        }
-);
+        });
 
         return services;
     }

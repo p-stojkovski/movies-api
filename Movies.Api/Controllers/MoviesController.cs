@@ -11,8 +11,10 @@ using Movies.Contracts.Responses;
 
 namespace Movies.Api.Controllers;
 
+//TODO: Separate api versions in different controllers V1, V2
 [ApiController]
 [ApiVersion(1.0)]
+//[ApiVersion(2.0)]
 public class MoviesController : ControllerBase
 {
     private readonly IMovieService _movieService;
@@ -34,11 +36,11 @@ public class MoviesController : ControllerBase
 
         var response = movie.MapToResponse();
 
-        return CreatedAtAction(nameof(GetV1), new { idOrSlug = response.Id }, response);
+        return CreatedAtAction(nameof(Get), new { idOrSlug = response.Id }, response);
     }
 
     [HttpGet(ApiEndpoints.Movies.Get)]
-    public async Task<IActionResult> GetV1([FromRoute] string idOrSlug, CancellationToken cancellationToken)
+    public async Task<IActionResult> Get([FromRoute] string idOrSlug, CancellationToken cancellationToken)
     {
         var userId = HttpContext.GetUserId();
 
@@ -56,47 +58,47 @@ public class MoviesController : ControllerBase
         return Ok(response);
     }
 
-    [ApiVersion(2.0)]
-    [HttpGet(ApiEndpoints.Movies.Get)]
-    public async Task<IActionResult> GetV2([FromRoute] string idOrSlug,
-        [FromServices] LinkGenerator linkGenerator,
-        CancellationToken cancellationToken)
-    {
-        var userId = HttpContext.GetUserId();
+    //[MapToApiVersion(2.0)]
+    //[HttpGet(ApiEndpoints.Movies.Get)]
+    //public async Task<IActionResult> GetV2([FromRoute] string idOrSlug,
+    //    [FromServices] LinkGenerator linkGenerator,
+    //    CancellationToken cancellationToken)
+    //{
+    //    var userId = HttpContext.GetUserId();
 
-        var movie = Guid.TryParse(idOrSlug, out var id)
-            ? await _movieService.GetByIdAsync(id, userId, cancellationToken)
-            : await _movieService.GetBySlugAsync(idOrSlug, userId, cancellationToken);
+    //    var movie = Guid.TryParse(idOrSlug, out var id)
+    //        ? await _movieService.GetByIdAsync(id, userId, cancellationToken)
+    //        : await _movieService.GetBySlugAsync(idOrSlug, userId, cancellationToken);
 
-        if (movie is null)
-        {
-            return NotFound();
-        }
+    //    if (movie is null)
+    //    {
+    //        return NotFound();
+    //    }
 
-        var response = movie.MapToResponse();
+    //    var response = movie.MapToResponse();
 
-        var movieObj = new { id = movie.Id };
-        response.Links.Add(new Link
-        {
-            Href = linkGenerator.GetPathByAction(HttpContext, nameof(GetV2), values: new { idOrSlug = movie.Id })!,
-            Rel = "self",
-            Type = "GET"
-        });
-        response.Links.Add(new Link
-        {
-            Href = linkGenerator.GetPathByAction(HttpContext, nameof(Update), values: movieObj)!,
-            Rel = "self",
-            Type = "PUT"
-        });
-        response.Links.Add(new Link
-        {
-            Href = linkGenerator.GetPathByAction(HttpContext, nameof(Delete), values: new { id = movie.Id })!,
-            Rel = "self",
-            Type = "DELETE"
-        });
+    //    var movieObj = new { id = movie.Id };
+    //    response.Links.Add(new Link
+    //    {
+    //        Href = linkGenerator.GetPathByAction(HttpContext, nameof(GetV2), values: new { idOrSlug = movie.Id })!,
+    //        Rel = "self",
+    //        Type = "GET"
+    //    });
+    //    response.Links.Add(new Link
+    //    {
+    //        Href = linkGenerator.GetPathByAction(HttpContext, nameof(Update), values: movieObj)!,
+    //        Rel = "self",
+    //        Type = "PUT"
+    //    });
+    //    response.Links.Add(new Link
+    //    {
+    //        Href = linkGenerator.GetPathByAction(HttpContext, nameof(Delete), values: new { id = movie.Id })!,
+    //        Rel = "self",
+    //        Type = "DELETE"
+    //    });
 
-        return Ok(response);
-    }
+    //    return Ok(response);
+    //}
 
     [HttpGet(ApiEndpoints.Movies.GetAll)]
     public async Task<IActionResult> GetAll(
