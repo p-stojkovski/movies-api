@@ -137,3 +137,11 @@ There are two categories:
 - Simpler to Get the item, change it and use PUT.
 
 ![image](https://github.com/p-stojkovski/movies-api/assets/3589356/b947f9de-f1b2-4a47-b8db-e5de74a19b79)
+
+### What is Swagger?
+- Is a way for describing language agnostic REST apis and it is all about specification.
+- It allows both humans and computers to understand the capabilities of apis in terms of what it can or cannot do and how the contracts look like using standardized format.
+
+Goals:
+- Minimize the time needed to document an api
+- Easier to integrate with api without need to be connected with the team implementing the api
