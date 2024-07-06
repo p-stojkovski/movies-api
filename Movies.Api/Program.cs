@@ -23,8 +23,11 @@ builder.Services.AddApiVersioning(options =>
     options.DefaultApiVersion = new ApiVersion(1.0);
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ReportApiVersions = true;
-    options.ApiVersionReader = new MediaTypeApiVersionReader("api-version"); //Headers -> Accept -> application/json;api-version=2.0
+    options.ApiVersionReader = new MediaTypeApiVersionReader("api-version"); 
+    //Headers -> Accept -> application/json;api-version=2.0
 }).AddMvc().AddApiExplorer();
+
+//builder.Services.AddResponseCaching();
 
 builder.Services.AddControllers();
 
@@ -59,6 +62,9 @@ app.MapHealthChecks("_health");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+//use CORS before Response Caching
+//app.UseResponseCaching();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapControllers();
