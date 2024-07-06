@@ -150,3 +150,15 @@ Goals:
 - Idea that to stop the client sending traffic to the server for no reason if something hasn't changed or isn't due to change in given period of time, it can cache that value and not call the server saving the server resources.
 - Response caching is completly based on the client not the server.
 - Not controller cache, mainly extractions
+
+### Output caching
+- Output caching is actually caching the output the api is returning based on some conditions.
+- Purly on server side.
+- By default is in memory cache.
+- By default only 200 OK is cached.
+- By default only GET and HEAD request are cached.
+- Responses that set cookies are not cached.
+- Responses to auth requests are not cached.
+
+- The most challenging task is cache invalidation.
+- **Tag** allows us to invalidate cached entries.
