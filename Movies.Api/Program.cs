@@ -28,6 +28,17 @@ builder.Services.AddApiVersioning(options =>
 }).AddMvc().AddApiExplorer();
 
 //builder.Services.AddResponseCaching();
+builder.Services.AddOutputCache(x =>
+{
+    x.AddBasePolicy(c => c.Cache());
+    x.AddPolicy("MovieCache", c =>
+    {
+        c.Cache()
+            .Expire(TimeSpan.FromMinutes(1))
+            .SetVaryByQuery(new[] { "title", "year", "sortBy", "page", "pageSize" })
+            .Tag("movies"); //Tag allows us to invalidate cached entries.
+    });
+});
 
 builder.Services.AddControllers();
 
@@ -63,8 +74,9 @@ app.MapHealthChecks("_health");
 app.UseAuthentication();
 app.UseAuthorization();
 
-//use CORS before Response Caching
+//use CORS before Response Caching or Output Caching
 //app.UseResponseCaching();
+app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 app.MapControllers();
