@@ -149,3 +149,4 @@ Goals:
 ### Response caching
 - Idea that to stop the client sending traffic to the server for no reason if something hasn't changed or isn't due to change in given period of time, it can cache that value and not call the server saving the server resources.
 - Response caching is completly based on the client not the server.
+- Not controller cache, mainly extractions
