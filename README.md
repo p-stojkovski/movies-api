@@ -145,3 +145,7 @@ There are two categories:
 Goals:
 - Minimize the time needed to document an api
 - Easier to integrate with api without need to be connected with the team implementing the api
+
+### Response caching
+- Idea that to stop the client sending traffic to the server for no reason if something hasn't changed or isn't due to change in given period of time, it can cache that value and not call the server saving the server resources.
+- Response caching is completly based on the client not the server.
