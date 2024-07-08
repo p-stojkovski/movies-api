@@ -17,7 +17,7 @@ var config = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddAuthenticationServices(config);
-builder.Services.AddAuthorizationServices();
+builder.Services.AddAuthorizationServices(config);
 
 builder.Services.AddScoped<ApiKeyAuthFilter>();
 

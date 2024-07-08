@@ -37,12 +37,16 @@ public static class SecurityExtenstions
         return services;
     }
 
-    public static IServiceCollection AddAuthorizationServices(this IServiceCollection services)
+    public static IServiceCollection AddAuthorizationServices(this IServiceCollection services, IConfiguration config)
     {
         services.AddAuthorization(x =>
         {
             x.AddPolicy(AuthConstants.AdminUserPolicyName,
                 p => p.RequireClaim(AuthConstants.AdminUserPolicyName, "true"));
+
+            //This for implementing multiple auth, api key with claims
+            //x.AddPolicy(AuthConstants.AdminUserPolicyName,
+            //    p => p.AddRequirements(new AdminAuthRequirement(config["ApiKey"]!)));
 
             x.AddPolicy(AuthConstants.TrustMemberPolicyName,
                 p => p.RequireAssertion(c =>

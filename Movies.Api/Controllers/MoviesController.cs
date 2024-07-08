@@ -165,6 +165,7 @@ public class MoviesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
     {
+        var userId = HttpContext.GetUserId();
         var deleted = await _movieService.DeleteByIdAsync(id, cancellationToken);
         if (!deleted)
         {
