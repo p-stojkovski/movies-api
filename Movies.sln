@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Api", "Movies.Api\Movies.Api.csproj", "{2770885D-A3CB-4879-B393-DE6461EF5035}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Api", "Movies.Api\Movies.Api.csproj", "{2770885D-A3CB-4879-B393-DE6461EF5035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Application", "Movies.Application\Movies.Application.csproj", "{BCD47ADC-3ED8-4703-9BFF-F80B5943A3CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Application", "Movies.Application\Movies.Application.csproj", "{BCD47ADC-3ED8-4703-9BFF-F80B5943A3CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Contracts", "Movies.Contracts\Movies.Contracts.csproj", "{B81084DD-73FE-4555-B5CA-80EF22DED8BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movies.Contracts", "Movies.Contracts\Movies.Contracts.csproj", "{B81084DD-73FE-4555-B5CA-80EF22DED8BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.Api", "Identity.Api\Identity.Api.csproj", "{91054D9B-1B0F-4A91-ABB3-1956038A310A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Api.Sdk", "Movies.Api.Sdk\Movies.Api.Sdk.csproj", "{F12542AB-1A5B-4865-8730-419ACB71F6AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movies.Api.Sdk.Consumer", "Movies.Api.Sdk.Consumer\Movies.Api.Sdk.Consumer.csproj", "{A4B585C4-354D-4B8E-B5F1-F4B3B481A9B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{91054D9B-1B0F-4A91-ABB3-1956038A310A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91054D9B-1B0F-4A91-ABB3-1956038A310A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91054D9B-1B0F-4A91-ABB3-1956038A310A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F12542AB-1A5B-4865-8730-419ACB71F6AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F12542AB-1A5B-4865-8730-419ACB71F6AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F12542AB-1A5B-4865-8730-419ACB71F6AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F12542AB-1A5B-4865-8730-419ACB71F6AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4B585C4-354D-4B8E-B5F1-F4B3B481A9B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4B585C4-354D-4B8E-B5F1-F4B3B481A9B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4B585C4-354D-4B8E-B5F1-F4B3B481A9B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4B585C4-354D-4B8E-B5F1-F4B3B481A9B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
