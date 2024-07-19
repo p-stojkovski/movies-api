@@ -111,7 +111,7 @@ public class MoviesController : ControllerBase
     //    return Ok(response);
     //}
 
-    [ServiceFilter(typeof(ApiKeyAuthFilter))]
+    //[ServiceFilter(typeof(ApiKeyAuthFilter))]
     [HttpGet(ApiEndpoints.Movies.GetAll)]
     [OutputCache(PolicyName = "MovieCache")]
     //[ResponseCache(Duration = 30, 
