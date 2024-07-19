@@ -5,8 +5,8 @@ using Movies.Contracts.Requests;
 using Refit;
 using System.Text.Json;
 
-//var moviesApi = RestService.For<IMoviesApi>("http://localhost:5286/");
-
+//TODO provide extension method for dependency injection registration for seamless integration
+// or documentation how to do it
 var services = new ServiceCollection();
 services
     .AddHttpClient()
