@@ -1,9 +1,18 @@
-﻿using Movies.Api.Sdk;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Movies.Api.Sdk;
 using Movies.Contracts.Requests;
 using Refit;
 using System.Text.Json;
 
-var moviesApi = RestService.For<IMoviesApi>("http://localhost:5286/");
+//var moviesApi = RestService.For<IMoviesApi>("http://localhost:5286/");
+
+var services = new ServiceCollection();
+services.AddRefitClient<IMoviesApi>()
+    .ConfigureHttpClient(x => x.BaseAddress = new Uri("http://localhost:5286/"));
+
+var provider = services.BuildServiceProvider();
+
+var moviesApi = provider.GetRequiredService<IMoviesApi>();
 
 var movie = await moviesApi.GetMovieAsync("toy-story-1995");
 
